@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slime Rancher 2 Slime Diet &amp; Upgrade Cost Reference</title>
+<style>
+  :root{
+    --bg:#15181d;
+    --panel:#1c2026;
+    --panel-2:#20252c;
+    --border:#2e343c;
+    --text:#dde2e8;
+    --text-dim:#8a929d;
+    --accent:#4f9b6a;
+    --meat:#c25f5f;
+    --fruit:#b0743c;
+    --veggies:#4f9b6a;
+    --ash:#8a929d;
+    --nectar:#9a5fc2;
+    --water:#4878a8;
+    --gilded:#c2a23c;
+    --other:#8a929d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.45;
+  }
+  header{
+    padding:20px 24px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size:21px;
+  }
+  header p{
+    margin:0 0 4px;
+    color:var(--text-dim);
+    font-size:14px;
+    max-width:820px;
+  }
+  nav.tabs{
+    display:flex;
+    gap:8px;
+    padding:14px 24px 0;
+    border-bottom:1px solid var(--border);
+    background:var(--panel);
+    flex-wrap:wrap;
+  }
+  nav.tabs .tab{
+    padding:10px 16px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    user-select:none;
+  }
+  nav.tabs .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+  }
+  section{ display:none; }
+  section.active{ display:block; }
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:16px 24px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel);
+    align-items:center;
+  }
+  input[type="search"]{
+    flex:1;
+    min-width:200px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:14px;
+  }
+  select{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:14px;
+  }
+  .chip{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:7px 12px;
+    border-radius:6px;
+    font-size:13px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .chip.active{
+    color:var(--text);
+    border-color:var(--accent);
+  }
+  .table-wrap{
+    padding:16px 24px 50px;
+    overflow-x:auto;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  th, td{
+    text-align:left;
+    padding:8px 10px;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th{
+    color:var(--text-dim);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+  }
+  tbody tr:hover{
+    background:var(--panel);
+  }
+  .badge{
+    display:inline-block;
+    font-size:11px;
+    padding:2px 7px;
+    border-radius:4px;
+    border:1px solid currentColor;
+    white-space:nowrap;
+  }
+  .badge.Meat{ color:var(--meat); }
+  .badge.Fruit{ color:var(--fruit); }
+  .badge.Veggies{ color:var(--veggies); }
+  .badge.Ash{ color:var(--ash); }
+  .badge.Nectar{ color:var(--nectar); }
+  .badge.Water{ color:var(--water); }
+  .badge.Gilded-Ginger{ color:var(--gilded); }
+  .badge.other{ color:var(--other); }
+  .src-link{
+    color:var(--text-dim);
+    font-size:11px;
+  }
+  .src-link a{ color:var(--text-dim); }
+  .cell-note{
+    font-size:11.5px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+  .conflict{
+    font-size:11.5px;
+    color:#c2a23c;
+    margin-top:4px;
+    border-left:2px solid #c2a23c;
+    padding-left:6px;
+  }
+  .snapshot-note{
+    font-size:12px;
+    color:var(--text-dim);
+    border-left:3px solid var(--border);
+    padding-left:10px;
+    margin:10px 24px;
+    max-width:820px;
+  }
+  .snapshot-note.warn{
+    border-left-color:var(--accent);
+  }
+  footer.sources{
+    padding:16px 24px 60px;
+    border-top:1px solid var(--border);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  footer.sources a{ color:var(--text-dim); }
+  footer.sources li{ margin-bottom:6px; }
+  .not-published{ color:var(--text-dim); font-style:italic; }
+  .lookup-result{
+    padding:0 24px 20px;
+  }
+  .lookup-result .card{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .lookup-result .card h3{
+    margin:0 0 6px;
+    font-size:15px;
+  }
+  .lookup-result ul{ margin:6px 0 0 18px; padding:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Slime Rancher 2 Slime Diet &amp; Upgrade Cost Reference</h1>
+  <p>Standing at a corral and need the fast answer: what does this slime eat, what's its favourite food, and what does the next Corral/Coop/Garden upgrade cost in Newbucks.</p>
+</header>
+
+<div class="snapshot-note warn" id="site-note"></div>
+
+<nav class="tabs">
+  <div class="tab active" data-section="slimes">Slimes (21)</div>
+  <div class="tab" data-section="whatdoifeed">What Do I Feed?</div>
+  <div class="tab" data-section="upgrades">Corral / Coop / Garden Upgrades</div>
+</nav>
+
+<section id="slimes" class="active">
+  <div class="controls">
+    <input type="search" id="slime-search" placeholder="Search slime, food, or location..." />
+    <div class="chip active" data-diet="All">All</div>
+    <div class="chip" data-diet="Meat">Meat</div>
+    <div class="chip" data-diet="Fruit">Fruit</div>
+    <div class="chip" data-diet="Veggies">Veggies</div>
+    <div class="chip" data-diet="Ash">Ash</div>
+    <div class="chip" data-diet="Nectar">Nectar</div>
+    <div class="chip" data-diet="Water">Water</div>
+    <div class="chip" data-diet="Gilded Ginger">Gilded Ginger</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Slime</th>
+          <th>Diet</th>
+          <th>Favourite Food</th>
+          <th>Plort</th>
+          <th>Where Found</th>
+        </tr>
+      </thead>
+      <tbody id="slime-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="whatdoifeed">
+  <div class="controls">
+    <select id="food-select"></select>
+  </div>
+  <div class="lookup-result" id="food-result"></div>
+</section>
+
+<section id="upgrades">
+  <div class="controls">
+    <div class="chip active" data-building="Corral">Corral</div>
+    <div class="chip" data-building="Coop">Coop</div>
+    <div class="chip" data-building="Garden">Garden</div>
+  </div>
+  <div id="upgrade-total" class="snapshot-note" style="margin-left:0;"></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Upgrade</th>
+          <th>Cost (Newbucks)</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="upgrade-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<footer class="sources">
+  Sources &amp; caveats:
+  <ul>
+    <li>Slime diet / favourite food — <a href="https://www.ggrecon.com/guides/slime-rancher-2-favourite-slime-foods/" target="_blank" rel="noopener">GGRecon, published 2022-10-04</a> (15 slimes, with how-to-obtain text); <a href="https://web.archive.org/web/20221004215753/https://www.gamerevolution.com/guides/715574-slime-rancher-2-favorite-foods-all-slimes" target="_blank" rel="noopener">GameRevolution, published 2022-09-28, read via archive.org (live site returned HTTP 403)</a> (21 slimes — the widest list, states "21 slimes at the time of this writing"); <a href="https://www.gfinityesports.com/article/all-slimes-slime-rancher-2" target="_blank" rel="noopener">Gfinity Esports, published 2022-09-26, updated 2022-09-27</a> (15 slimes, the only source with per-slime location text).</li>
+    <li>Corral upgrades — <a href="https://web.archive.org/web/20250906102044/https://primagames.com/tips/slime-rancher-2-corral-guide-all-upgrades-and-costs" target="_blank" rel="noopener">Prima Games, published 2022-09-22, read via archive.org (live site returned HTTP 403)</a>. Single source — no second source corroborates these Newbucks figures.</li>
+    <li>Coop upgrades — <a href="https://web.archive.org/web/20250908235542/https://primagames.com/tips/slime-rancher-2-coop-guide-all-upgrades-and-costs" target="_blank" rel="noopener">Prima Games, published 2022-09-23, read via archive.org (live site returned HTTP 403)</a>. Single source.</li>
+    <li>Garden upgrades — <a href="https://web.archive.org/web/20250908235542/https://primagames.com/tips/slime-rancher-2-garden-guide-all-upgrades-and-costs" target="_blank" rel="noopener">Prima Games, published 2022-09-22, read via archive.org (live site returned HTTP 403)</a>. Single source.</li>
+  </ul>
+  <div>adrelien.com (listed as a candidate source) was checked directly and is an unrelated Meshtastic/IoT site with no Slime Rancher 2 content — not used. Fandom was excluded per charter. No calculator, planner, or interactive database for Slime Rancher 2 was found; only the static guides above.</div>
+  <div style="margin-top:8px;">Version context: every source above was published in September/October 2022, around Slime Rancher 2's early-access launch. GameRevolution explicitly notes "future updates for the game will likely add to this." None of the four states a specific build/patch number — treat this as an early-access snapshot, not current-build truth.</div>
+  <div style="margin-top:8px;">Blanks are shown as "not published," never invented. Where sources disagree (Boom Slime's favourite food, Ringtail Slime's diet breadth), both readings are shown and flagged rather than one being silently picked.</div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+  const dietClass = d => d.replace(/\s+/g, "-");
+
+  // ---- Slimes ----
+  const slimeRowsEl = document.getElementById("slime-rows");
+  const slimeSearchEl = document.getElementById("slime-search");
+  const dietChips = document.querySelectorAll(".chip[data-diet]");
+  let activeDiet = "All";
+
+  function matchesSlimeSearch(s, q) {
+    if (!q) return true;
+    q = q.toLowerCase();
+    return s.name.toLowerCase().includes(q) ||
+      s.favoriteFood.toLowerCase().includes(q) ||
+      s.location.toLowerCase().includes(q);
+  }
+
+  function dietBadges(s) {
+    return s.dietCategories.map(d => {
+      const known = ["Meat", "Fruit", "Veggies", "Ash", "Nectar", "Water", "Gilded Ginger"].includes(d);
+      const cls = known ? dietClass(d) : "other";
+      return `<span class="badge ${cls}">${d}</span>`;
+    }).join(" ");
+  }
+
+  function sourceLinks(ids) {
+    const names = { ggrecon: "GGRecon", gamerev: "GameRevolution", gfinity: "Gfinity" };
+    return ids.map(id => names[id] || id).join(", ");
+  }
+
+  function renderSlimes() {
+    const q = slimeSearchEl.value.trim();
+    const filtered = SLIMES.filter(s =>
+      (activeDiet === "All" || s.dietCategories.includes(activeDiet)) &&
+      matchesSlimeSearch(s, q)
+    );
+    slimeRowsEl.innerHTML = "";
+    for (const s of filtered) {
+      const tr = document.createElement("tr");
+      const plortHtml = s.plort === "not published"
+        ? '<span class="not-published">not published</span>'
+        : s.plort;
+      let favFoodHtml = `${s.favoriteFood}<div class="cell-note">src: ${sourceLinks(s.favoriteFoodSources)}</div>`;
+      if (s.conflict) {
+        favFoodHtml += `<div class="conflict">⚑ ${s.conflict}</div>`;
+      }
+      const locationHtml = s.location === "not published"
+        ? '<span class="not-published">not published</span>'
+        : `${s.location}<div class="cell-note">${s.howToObtain}</div>`;
+      tr.innerHTML = `
+        <td>${s.name}<div class="cell-note">diet src: ${sourceLinks(s.dietSources)}</div></td>
+        <td>${dietBadges(s)}</td>
+        <td>${favFoodHtml}</td>
+        <td>${plortHtml}</td>
+        <td>${locationHtml}</td>
+      `;
+      slimeRowsEl.appendChild(tr);
+    }
+  }
+  slimeSearchEl.addEventListener("input", renderSlimes);
+  dietChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      dietChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeDiet = chip.dataset.diet;
+      renderSlimes();
+    });
+  });
+
+  // ---- What Do I Feed? ----
+  const foodSelectEl = document.getElementById("food-select");
+  const foodResultEl = document.getElementById("food-result");
+  const foods = foodsList();
+  for (const f of foods) {
+    const opt = document.createElement("option");
+    opt.value = f.food;
+    opt.textContent = `${f.food} (${f.category})`;
+    foodSelectEl.appendChild(opt);
+  }
+
+  function renderFood() {
+    const f = findFood(foodSelectEl.value);
+    foodResultEl.innerHTML = "";
+    if (!f) return;
+    const card = document.createElement("div");
+    card.className = "card";
+    let html = `<h3>${f.food} <span class="badge ${dietClass(f.category)}">${f.category}</span></h3>`;
+    if (f.favoriteFor.length) {
+      html += `<div><b>Favourite food for:</b> ${f.favoriteFor.join(", ")}</div>`;
+    } else {
+      html += `<div><b>Favourite food for:</b> <span class="not-published">none of the 21 tracked slimes</span></div>`;
+    }
+    if (f.eatenBy.length) {
+      html += `<div style="margin-top:8px;"><b>Also eaten (no double-plort bonus) by any ${f.category}-diet slime:</b><ul>`;
+      for (const name of f.eatenBy) html += `<li>${name}</li>`;
+      html += `</ul></div>`;
+    }
+    card.innerHTML = html;
+    foodResultEl.appendChild(card);
+  }
+  foodSelectEl.addEventListener("change", renderFood);
+
+  // ---- Upgrades ----
+  const upgradeRowsEl = document.getElementById("upgrade-rows");
+  const upgradeTotalEl = document.getElementById("upgrade-total");
+  const buildingChips = document.querySelectorAll(".chip[data-building]");
+  let activeBuilding = "Corral";
+
+  function renderUpgrades() {
+    const table = UPGRADES[activeBuilding];
+    upgradeRowsEl.innerHTML = "";
+    for (const r of table.rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${r.upgrade}</td>
+        <td>${r.cost}</td>
+        <td>${r.description}</td>
+      `;
+      upgradeRowsEl.appendChild(tr);
+    }
+    const src = SOURCES[table.source];
+    upgradeTotalEl.innerHTML = `<b>Total to fully upgrade a ${activeBuilding}:</b> ${table.total} Newbucks. ${table.totalNote} <span class="src-link">(single source: <a href="${src.archive || src.url}" target="_blank" rel="noopener">${src.name}</a>, published ${src.published})</span>`;
+  }
+  buildingChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      buildingChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeBuilding = chip.dataset.building;
+      renderUpgrades();
+    });
+  });
+
+  document.getElementById("site-note").textContent = GAME_VERSION_NOTE;
+
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+      document.getElementById(tab.dataset.section).classList.add("active");
+    });
+  });
+
+  renderSlimes();
+  renderFood();
+  renderUpgrades();
+</script>
+
+</body>
+</html>
